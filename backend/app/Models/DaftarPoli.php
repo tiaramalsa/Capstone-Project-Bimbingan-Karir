@@ -16,6 +16,7 @@ class DaftarPoli extends Model
         'id_jadwal',
         'keluhan',
         'no_antrian',
+        "status",
     ];
 
     public $timestamps = true;
@@ -35,4 +36,10 @@ class DaftarPoli extends Model
     {
         return $this->belongsTo(JadwalPeriksa::class, 'id_jadwal');
     }
+    
+    public function periksa()
+    {
+        return $this->hasOne(Periksa::class, 'id_daftar_poli');
+    }
+
 }

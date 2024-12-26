@@ -14,7 +14,8 @@ const Sidebar = () => {
   return (
     <div className="h-screen bg-blue-600 text-white w-64 flex flex-col fixed left-0 top-0">
       {/* Header */}
-      <div className="py-4 text-center font-bold text-lg border-b border-gray-600">
+      <div className="py-4 text-center font-bold text-lg border-b-2 border-white flex items-center justify-center">
+        <img src="/src/assets/logoAdaSehat.png" alt="Doctorate Logo" className="h-8 w-8 mr-2" />
         Admin
       </div>
 
@@ -39,7 +40,7 @@ const Sidebar = () => {
       </nav>
 
       {/* Logout Menu */}
-      <div className="border-t border-gray-600 mt-auto">
+      <div className="border-t-2 border-white mt-auto">
         <NavLink
           to="/login"
           className="flex items-center py-3 px-4 text-base font-medium transition-colors hover:bg-blue-800 hover:text-white"

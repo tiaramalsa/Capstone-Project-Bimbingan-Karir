@@ -12,11 +12,6 @@ class ObatController extends Controller
         return response()->json(Obat::all());
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -25,7 +20,6 @@ class ObatController extends Controller
             'harga' => 'required|integer|min:0',
         ]);
 
-        //simpan data poli
         $obat = Obat::create($validated);
 
         return response()->json(['message' => 'Obat created succesfully', 'data' => $obat], 201);
@@ -40,11 +34,6 @@ class ObatController extends Controller
         }
 
         return response()->json($obat);
-    }
-
-    public function edit(string $id)
-    {
-        //
     }
 
     public function update(Request $request, string $id)

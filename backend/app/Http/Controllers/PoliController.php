@@ -36,10 +36,6 @@ class PoliController extends Controller
         return response()->json($poli);
     }
 
-    public function edit(string $id)
-    {
-        //
-    }
 
     public function update(Request $request, string $id)
     {

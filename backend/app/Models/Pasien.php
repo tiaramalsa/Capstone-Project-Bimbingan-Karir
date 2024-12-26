@@ -14,4 +14,9 @@ class Pasien extends Model
     protected $fillable = ['nama', 'alamat', 'no_ktp', 'no_hp', 'no_rm', 'password'];
 
     protected $hidden = ['password'];
+
+    public function daftarPoli()
+    {
+        return $this->hasMany(DaftarPoli::class, 'id_pasien');
+    }
 }

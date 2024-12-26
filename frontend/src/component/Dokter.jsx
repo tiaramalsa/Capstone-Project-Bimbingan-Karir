@@ -103,7 +103,6 @@ const Dokter = () => {
     <>
     
     <div className="ml-80 mr-20">
-      {/* <h1 className="text-2xl font-bold mb-4 mt-8">Dokter</h1> */}
       {error && <p className="text-red-500">{error}</p>}
       {isLoading ? (
         <p>Loading...</p>
@@ -137,7 +136,7 @@ const Dokter = () => {
                   <td className="py-2 px-4 border-b text-center">
                     {polies.find((poli) => poli.id === dokter.id_poli)?.nama_poli || "N/A"}
                   </td>
-                  <td className="py-2 px-4 border-b">
+                  <td className="py-2 px-4 border-b text-center">
                     <button
                       onClick={() => openEditModal(dokter)}
                       className="px-3 py-1 text-white bg-yellow-500 rounded hover:bg-yellow-600 mr-2"

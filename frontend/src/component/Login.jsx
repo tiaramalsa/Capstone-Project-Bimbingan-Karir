@@ -32,8 +32,9 @@ const Login = () => {
 
         
         if (formData.role === "dokter") {
-          localStorage.setItem("dokterId", user.id); 
-          navigate(`/profildokter/${user.id}`);
+          localStorage.setItem("dokterId", JSON.stringify(response.data.user));
+
+          navigate(`/dokter/${user.id}/profildokter`);
         } else if (formData.role === "admin") {
           navigate(`/dashboardadmin`);
         } else {

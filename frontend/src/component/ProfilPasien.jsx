@@ -7,18 +7,23 @@ const ProfilPasien = () => {
     alamat: "",
     no_ktp: "",
     no_hp: "",
-    no_rm: "", 
+    no_rm: "",
   });
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const pasienId = JSON.parse(localStorage.getItem("user"))?.id;
-
   const fetchProfile = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`http://localhost:8000/api/pasiens/${pasienId}`);
+      const storedPasien = localStorage.getItem("pasienId");
+      if (!storedPasien) {
+        setError("Data pasien tidak ditemukan di localStorage.");
+        return;
+      }
+
+      const { id } = JSON.parse(storedPasien);
+      const response = await axios.get(`http://localhost:8000/api/pasiens/${id}`);
       setFormData({
         nama: response.data.nama,
         alamat: response.data.alamat,
@@ -34,12 +39,8 @@ const ProfilPasien = () => {
   };
 
   useEffect(() => {
-    if (pasienId) {
-      fetchProfile();
-    } else {
-      setError("Pasien tidak ditemukan. Silakan login ulang.");
-    }
-  }, [pasienId]);
+    fetchProfile();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,7 +54,15 @@ const ProfilPasien = () => {
     }
     setIsLoading(true);
     try {
-      await axios.put(`http://localhost:8000/api/pasiens/${pasienId}`, formData);
+      const storedPasien = localStorage.getItem("pasienId");
+      if (!storedPasien) {
+        setError("Data pasien tidak ditemukan di localStorage.");
+        return;
+      }
+
+      const { id } = JSON.parse(storedPasien);
+      await axios.put(`http://localhost:8000/api/pasiens/${id}`, formData);
+
       alert("Profil berhasil diperbarui.");
       setIsEditing(false);
     } catch (err) {
@@ -65,17 +74,33 @@ const ProfilPasien = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-blue-50 shadow-md rounded-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">Profil Pasien</h1>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+    <>
+    
+    <div className="max-w-3xl mx-auto mt-10 p-8 bg-white shadow-lg rounded-lg">
+      <h1 className="text-3xl font-bold mb-8 text-center text-blue-600">Profil Pasien</h1>
+      {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
       {isLoading ? (
-        <p>Memuat...</p>
+        <p className="text-center text-gray-500">Memuat data...</p>
       ) : (
         <form>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* No Rekam Medis */}
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                No Rekam Medis
+              </label>
+              <input
+                type="text"
+                value={formData.no_rm || "Belum ada data"}
+                disabled
+                className="w-full border px-3 py-2 rounded-md bg-gray-100 text-gray-600"
+              />
+            </div>
+
+            {/* Input Fields */}
             {["nama", "alamat", "no_ktp", "no_hp"].map((field) => (
               <div key={field}>
-                <label className="block text-sm font-medium mb-2 capitalize">
+                <label className="block text-sm font-medium mb-2 text-gray-700 capitalize">
                   {field.replace("_", " ")}
                 </label>
                 <input
@@ -85,28 +110,22 @@ const ProfilPasien = () => {
                   onChange={handleChange}
                   disabled={!isEditing}
                   className={`w-full border px-3 py-2 rounded-md ${
-                    !isEditing ? "bg-white text-gray-600" : "focus:outline-blue-500"
+                    !isEditing
+                      ? "bg-gray-100 text-gray-600"
+                      : "focus:outline-none focus:ring-2 focus:ring-blue-500"
                   }`}
                 />
               </div>
             ))}
-            <div>
-              <label className="block text-sm font-medium mb-2">No Rekam Medis</label>
-              <input
-                type="text"
-                value={formData.no_rm || "Belum ada data"}
-                disabled
-                className="w-full border px-3 py-2 rounded-md bg-white text-gray-600"
-              />
-            </div>
           </div>
-          <div className="mt-6 text-right">
+
+          <div className="mt-8 flex justify-end space-x-4">
             {isEditing ? (
               <>
                 <button
                   type="button"
                   onClick={() => setIsEditing(false)}
-                  className="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-400 mr-4"
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
                 >
                   Batal
                 </button>
@@ -131,6 +150,7 @@ const ProfilPasien = () => {
         </form>
       )}
     </div>
+    </>
   );
 };
 

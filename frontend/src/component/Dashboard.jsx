@@ -13,14 +13,14 @@ const Dashboard = () => {
       <nav className="bg-blue-700 text-white shadow-lg sticky">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <a href="/" className="text-2xl font-bold flex items-center">
-            <img src="/src/assets/logo.png" alt="Doctorate Logo" className="h-8 w-8 mr-2" /> {/* Logo */}
+            <img src="/src/assets/logoAdaSehat.png" alt="Doctorate Logo" className="h-8 w-8 mr-2" />
             AdaSehat
           </a>
           <div className="hidden md:flex space-x-6">
-            <a href="#home" className="hover:text-blue-200">Home</a>
-            <a href="#about" className="hover:text-blue-200">About</a>
-            <a href="#services" className="hover:text-blue-200">Poli</a>
-            <a href="#doctors" className="hover:text-blue-200">Dokter</a>
+            <a href="#home" className="hover:text-blue-200 font-semibold">Home</a>
+            <a href="#about" className="hover:text-blue-200 font-semibold">About</a>
+            <a href="#services" className="hover:text-blue-200 font-semibold">Poli</a>
+            <a href="#doctors" className="hover:text-blue-200 font-semibold">Dokter</a>
           </div>
         </div>
       </nav>
@@ -205,7 +205,7 @@ const Dashboard = () => {
       {/* Footer */}
     <footer className="bg-blue-700 text-white py-6">
             <div className="container mx-auto text-center">
-            <p>&copy; 2024 Doctorate. All Rights Reserved.</p>
+            <p>&copy; 2024 AdaSehat. All Rights Reserved.</p>
             </div>
         </footer>
         </div>

@@ -46,9 +46,9 @@ const LoginUser = () => {
       if (response.status === 200) {
         // Jika login berhasil, simpan data pengguna
         setUserData(response.data.pasien);
-        localStorage.setItem("user", JSON.stringify(response.data.pasien)); // Simpan di localStorage
+        localStorage.setItem("pasienId", JSON.stringify(response.data.pasien)); // Simpan di localStorage
         setMessage(`Login berhasil! Selamat datang, ${response.data.pasien.nama}`);
-        navigate(`/profilpasien/${response.data.pasien.id}`);
+        navigate(`/pasien/${response.data.pasien.id}/profilpasien`);
       } else {
         setMessage(response.data.message || "Login gagal.");
       }
