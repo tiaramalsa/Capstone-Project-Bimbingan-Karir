@@ -38,6 +38,15 @@ class JadwalPeriksaController extends Controller
     ]);
 
     try {
+        //cek jadwal pada hari yang sama
+        $existingJadwal = JadwalPeriksa::where('id_dokter', $validatedData['id_dokter'])
+        ->where('hari', $validatedData['hari'])
+        ->exists();
+
+        if ($existingJadwal){
+            return response()->json(['error' => 'Dokter sudah memiliki jadwal di hari tersebut'], 400);
+        }
+
         if ($validatedData['status'] === 'aktif') {
             // Nonaktifkan jadwal lain dengan status aktif
             JadwalPeriksa::where('id_dokter', $validatedData['id_dokter'])
@@ -82,11 +91,6 @@ class JadwalPeriksaController extends Controller
         'jadwal' => $jadwalPeriksa,
     ]);
 }
-
-    
-
-    
-
     // Menghapus jadwal periksa
     public function destroy($id)
     {

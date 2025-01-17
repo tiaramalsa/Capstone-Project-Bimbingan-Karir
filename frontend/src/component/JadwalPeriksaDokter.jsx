@@ -4,7 +4,7 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost:8000/api";
 
 const JadwalPeriksaDokter = () => {
-  const [data, setData] = useState([]); // Data jadwal
+  const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({
     hari: "",
@@ -17,6 +17,8 @@ const JadwalPeriksaDokter = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const hariOptions = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+
   useEffect(() => {
     const storedDokter = localStorage.getItem("dokterId");
     if (storedDokter) {
@@ -25,10 +27,7 @@ const JadwalPeriksaDokter = () => {
       console.log("Dokter berhasil dimuat:", parsedDokter);
     } else {
       setError("Data dokter tidak ditemukan. Silakan login ulang.");
-    }
-  }, []);
-
-
+    }}, []);
   const fetchJadwal = async () => {
     if (!dokter) return;
     try {
@@ -80,8 +79,13 @@ const JadwalPeriksaDokter = () => {
       setShowModal(false);
       resetForm();
     } catch (err) {
-      console.error("Error saving jadwal:", err.response?.data || err.message);
-      setError("Gagal menyimpan jadwal. Periksa input Anda.");
+      if (err.response && err.response.data.error) {
+        alert(err.response.data.error);
+      } else {
+        setError("Gagal menyimpan jadwal. Periksa input Anda.");
+      }
+      // console.error("Error saving jadwal:", err.response?.data || err.message);
+      // setError("Gagal menyimpan jadwal. Periksa input Anda.");
     }
   };
 
@@ -182,15 +186,20 @@ const JadwalPeriksaDokter = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-gray-700">Hari</label>
-                  <input
-                    type="text"
+                  <select
                     name="hari"
                     value={form.hari}
                     onChange={handleChange}
                     className="w-full p-2 border border-gray-300 rounded"
-                    placeholder="Masukkan Hari"
                     required
-                  />
+                  >
+                    <option value="">Pilih Hari</option>
+                    {hariOptions.map((hari) => (
+                      <option key={hari} value={hari}>
+                        {hari}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="flex space-x-4">
                   <div className="w-1/2">
